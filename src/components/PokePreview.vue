@@ -2,11 +2,11 @@
 
 	<div @click="show_pokemon"> {{ this.pokemon.name }} </div>
 
-
-
 </template>
 <script>
 
+import { usePokemonStore } from '@/stores/PokemonStore'
+import { mapState, mapActions } from 'pinia'
 import apiMixin from '@/mixins/apiMixin'
 
 export default {
@@ -20,6 +20,7 @@ export default {
     created(){
     	this.get( 'pokemon', this.name ).then( data => {
     		this.pokemon = data;
+    		this.loadPokemon( this.pokemon );
     	});
     },
 
@@ -30,8 +31,10 @@ export default {
     },
 
     methods: {
+    	...mapActions( usePokemonStore, ['loadPokemon']),
+
     	show_pokemon( event ){
-    		this.$router.push({ name: 'pokemon', params: { pokemon: this.pokemon } })
+    		this.$router.push({ path: `/pokemon/${this.pokemon.name}` })
     	}
     }
 

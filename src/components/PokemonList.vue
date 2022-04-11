@@ -13,7 +13,6 @@
 			:name="pokemon.name"
 		>
 		</PokePreview>
-
 	</div>
 
 </template>

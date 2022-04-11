@@ -1,21 +1,43 @@
 <template>
-
+	{{ pokemon.name }}
 </template>
 <script>
 
+import apiMixin from '@/mixins/apiMixin'
+import { mapState, mapActions } from 'pinia'
+import { usePokemonStore } from '@/stores/PokemonStore'
+
+
 export default {
-	props: {
-		pokemon: Object,
+
+	props: [ 'name' ],
+
+	mixins: [ apiMixin ],
+
+	mounted(){
+		this.getLoaded();
 	},
 
 	data(){
 		return {
-
+			pokemon: {},
 		}
 	},
 
-	mounted(){
-		console.log('hola');
+	computed: {
+		...mapState( usePokemonStore, ['loadedPokemons'] )
+	},
+
+	watch: {
+		name(){
+			this.getLoaded();
+		}
+	},
+
+	methods: {
+		getLoaded(){
+			this.pokemon = this.loadedPokemons.find( pokemon => pokemon.name == this.name );
+		}
 	}
 }
 
