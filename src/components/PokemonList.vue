@@ -2,7 +2,7 @@
 
     <div class="d-flex px-3 flex-column">
 
-        <div class="row my-3 px-3">
+        <div class="row my-3 px-0">
             <div class="col-auto">
                 <IconPokeball height="32" width="24"></IconPokeball>
             </div>
@@ -11,7 +11,7 @@
                 <div class="pokemon-list-header"> Pokédex </div>
             </div>
 
-             <div class="col-auto ms-auto">
+             <div class="col-auto ms-auto ps-2 pe-0">
                 <div class="form-group pt-1">
                     <select v-model="$i18n.locale" style="background: transparent;border: transparent;">
                         <option>es</option>
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="col-auto align-self-center">
+            <div class="col-auto align-self-center px-1">
                 <PokeSort
                     :orderBy="orderBy"
                     :orderDirection="orderDirection"
