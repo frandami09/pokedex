@@ -4,7 +4,6 @@ export const usePokemonStore = defineStore('pokemon', {
 
     state: () => ({
 
-        selected_language: 'es',
         //utilizada a manera de cache para agilizar las busquedas
         pokemonList: [],
 

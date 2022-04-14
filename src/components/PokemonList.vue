@@ -11,7 +11,27 @@
                 <div class="pokemon-list-header"> Pokédex </div>
             </div>
 
-            <div class="col-auto ms-auto align-self-center">
+             <div class="col-auto ms-auto">
+                <div class="form-group pt-1">
+                    <select v-model="$i18n.locale" style="background: transparent;border: transparent;">
+                        <option>es</option>
+                        <option>en</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-auto">
+                <div class="form-group pt-1">
+                    <select v-model="elementsPerPage" style="background: transparent;border: transparent;">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>25</option>
+                        <option>50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-auto align-self-center">
                 <PokeSort
                     :orderBy="orderBy"
                     :orderDirection="orderDirection"
@@ -78,7 +98,7 @@ export default {
     	return {
     		searchTerms: '',
     		currentPage: 1,
-    		elementsPerPage: 10,
+    		elementsPerPage: 5,
     		orderBy: 'id',
     		orderDirection: 'asc',
     	}

@@ -160,7 +160,7 @@ export default {
 
 		pokemon_description(){
 			if ( this.loaded_species.hasOwnProperty('flavor_text_entries') ) {
-				return this.loaded_species.flavor_text_entries.filter( item => item.language.name == this.selected_language )[0].flavor_text;
+				return this.loaded_species.flavor_text_entries.filter( item => item.language.name == this.$i18n.locale )[0].flavor_text;
 			}
 		}
 	},

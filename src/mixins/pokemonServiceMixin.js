@@ -7,7 +7,7 @@ export default {
 	mixins: [ apiMixin ],
 
 	computed: {
-		...mapState( usePokemonStore, ['loadedPokemons', 'loadedSpecies', 'selected_language'] ),
+		...mapState( usePokemonStore, ['loadedPokemons', 'loadedSpecies'] ),
 
 		pokemon_id(){
             if ( this.pokemon.hasOwnProperty('types') ) {
