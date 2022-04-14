@@ -40,37 +40,6 @@ export default {
     	}
     },
 
-    computed: {
-
-        pokemon_id(){
-            if ( this.pokemon.hasOwnProperty('types') ) {
-                return '#' + this.pokemon.id.toString().padStart(3, "0");
-            }
-            return '#000';
-        },
-
-        pokemon_name(){
-            if ( this.pokemon.hasOwnProperty('name') ) {
-                return this.pokemon.name;
-            }
-            return '#000';
-        },
-
-        type_color(){
-            if ( this.pokemon.hasOwnProperty('types') ) {
-                return this.colors[ this.pokemon.types[0].type.name ];
-            }
-            return 'white';
-        },
-
-        pokemon_preview_image(){
-            if ( this.pokemon.hasOwnProperty('sprites') ) {
-                return this.pokemon.sprites.other['official-artwork'].front_default
-            }
-        }
-    },
-
-
     methods: {
     	show_pokemon( event ){
     		this.$router.push({ path: `/pokemon/${this.pokemon.name}` })

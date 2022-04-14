@@ -4,11 +4,15 @@ export const usePokemonStore = defineStore('pokemon', {
 
     state: () => ({
 
+        selected_language: 'es',
         //utilizada a manera de cache para agilizar las busquedas
         pokemonList: [],
 
-        //pokemons cargados en los resultados de busqueda
+        //pokemons cargados en el store
         loadedPokemons: {},
+
+        //especies de pokemon cargadas en el store
+        loadedSpecies: {},
 
     }),
 
@@ -24,6 +28,10 @@ export const usePokemonStore = defineStore('pokemon', {
 
         storePokemon(pokemon){
             this.loadedPokemons[ pokemon.name ] = pokemon;
+        },
+
+        storeSpecies(species){
+            this.loadedSpecies[ species.name ] = species;
         },
     },
 })
