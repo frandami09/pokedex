@@ -15,8 +15,9 @@ export const usePokemonStore = defineStore('pokemon', {
     actions: {
         setPokemonList(list){
             this.pokemonList = list;
+            //le agrego una nueva propiedad id para poder ordenar la lista basada en los ids
             this.pokemonList.map( pokemon => {
-                pokemon.id = pokemon.url.split('/').at(-2);
+                pokemon.id = Number( pokemon.url.split('/').at(-2) );
                 return pokemon;
             })
         },

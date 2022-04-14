@@ -58,7 +58,7 @@ export default {
 .pokemon-view{
 	border-radius: 12px;
 	background-color: v-bind( type_color );
-	min-height: 100vh;
+	min-height: 100%;
 }
 
 

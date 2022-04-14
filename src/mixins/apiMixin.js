@@ -16,15 +16,6 @@ export default {
 			}
 		},
 
-
-		/*get( resource_name, resource_id ){
-			return new Promise( (resolve, reject) => {
-	            fetch( `${this.prefixApiURL}/${resource_name}/${resource_id}` )
-			    .then( response => response.json() )
-			    .then( data => resolve( data ) );
-	        })
-		},*/
-
 		getPaginated( resource_name, limit = null, offset = null ){
 			let queryString = '';
 

@@ -8,9 +8,7 @@
   --background: #F7F7F7;
 }
 
-
 body {
-  min-height: 100vh;
   color: var(--dark-gray);
   background-color: var(--background);
   transition: color 0.5s, background-color 0.5s;
@@ -25,7 +23,7 @@ body {
 body #wrapper {
     max-width: 1300px;
     margin: 0 auto;
-    height: 100%;
+    min-height: 100vh;
     overflow: hidden;
     width: 100%;
 }
