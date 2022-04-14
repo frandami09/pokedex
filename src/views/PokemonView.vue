@@ -1,6 +1,7 @@
 <template>
 
 	<div class="pokemon-view d-flex flex-column">
+
 		<IconPokeball class="pokemon-view-icon-pokeball"></IconPokeball>
 		<div class="row pokemon-view-content">
 			<div
@@ -16,21 +17,47 @@
                 <div class="pokemon-view-id"> {{ this.pokemon_id }} </div>
 			</div>
 		</div>
+
 		<div class="pokemon-details-content">
-			<div class="preview-image-container">
-				<img class="preview-image-img" height="200" :src="pokemon_preview_image">
+
+		 	<div class="preview-image-container">
+
+		 		<IconCaret
+		 			class="direction-caret"
+		 			style="transform: rotate(180deg);"
+		 			:style="{'opacity': pokemon.id > 1 ? 1 : 0}"
+		 			@click="go_to_previous()"
+		 		>
+		 		</IconCaret>
+
+				<img
+					class="preview-image-img"
+					height="200"
+					:src="pokemon_preview_image"
+				>
+
+		 		<IconCaret
+		 			class="direction-caret"
+		 			:style="{'opacity': pokemon.id < 1228 ? 1 : 0}"
+		 			@click="go_to_next()"
+		 		>
+		 		</IconCaret>
+
 			</div>
+
 			<div class="pokemon-details-type d-flex justify-content-center">
 				<div
 					v-for="type in pokemon.types"
 					class="pokemon-type-badge" :style="{'background-color': colors[type.type.name] }"
 				>
-					{{ type.type.name }}
+					{{ $t(type.type.name) }}
 				</div>
 			</div>
+
 			<div class="about-text-label py-4">
-				About
+				{{ $t('about') }}
 			</div>
+
 			<div class="row justify-content-center">
 
 				<div class="col-auto  d-flex flex-column text-center justify-content-end pokemon-details-box with-border">
@@ -38,7 +65,7 @@
 						<IconWeight></IconWeight>
 						<span class="ps-2 weight-detail">{{ pokemon_weight }}</span>
 					</div>
-					<span class="weight-span"> weight </span>
+					<span class="weight-span"> {{ $t('weight') }} </span>
 				</div>
 
 				<div class="col-auto  d-flex flex-column text-center justify-content-end pokemon-details-box with-border">
@@ -46,29 +73,42 @@
 						<IconRuler></IconRuler>
 						<span class="ps-2 weight-detail">{{ pokemon_height }}</span>
 					</div>
-					<span class="weight-span"> height </span>
+					<span class="weight-span"> {{ $t('height') }} </span>
 				</div>
 
 				<div class="col-auto d-flex flex-column text-center pokemon-details-box justify-content-end">
 					<div class="d-flex align-items-center px-2 flex-column">
 						<label v-for="move in displaying_moves" class="d-block pokemon-move-label"> {{move.move.name}} </label>
 					</div>
-					<span class="weight-span"> moves </span>
+					<span class="weight-span"> {{ $t('moves') }} </span>
 				</div>
 
 				<div class="pokemon-description py-4 px-5 text-center"> {{ pokemon_description }} </div>
 
-				<div class="about-text-label py-4">
-					Base Stats
+				<div class="about-text-label py-2">
+					{{ $t('base_stats') }}
 				</div>
 
-				<div class="row" v-for="stat in pokemon.stats">
-					<div class="col-auto"> {{ stat.stat.name }} </div>
-					<div class="col"> {{ stat.base_stat }} </div>
+				<div class="d-flex px-5 align-items-center" v-for="stat in pokemon.stats">
+
+					<div class="stat-name"> {{ $t(stat.stat.name) }} </div>
+
+					<div class="stat-value"> {{ stat.base_stat.toString().padStart(3, "0") }} </div>
+
+					<div class="flex-grow-1">
+						<ProgressBar
+                            :progressPercent="stat.base_stat"
+                            :barColor="type_color"
+                            :borderColor="type_color"
+                            :height="'4px'"
+                        ></ProgressBar>
+					</div>
+
 				</div>
 
 			</div>
 		</div>
+
 	</div>
 
 </template>
@@ -79,6 +119,11 @@ import IconPokeball from '@/components/icons/IconPokeball.vue'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
 import IconWeight from '@/components/icons/IconWeight.vue'
 import IconRuler from '@/components/icons/IconRuler.vue'
+import IconCaret from '@/components/icons/IconCaret.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
+
+import { usePokemonStore } from '@/stores/PokemonStore'
+import { mapState } from 'pinia'
 
 
 export default {
@@ -90,6 +135,8 @@ export default {
 		IconArrowLeft,
 		IconWeight,
 		IconRuler,
+		IconCaret,
+		ProgressBar,
 	},
 
 	mixins: [ pokemonServiceMixin ],
@@ -108,6 +155,9 @@ export default {
 	},
 
 	computed: {
+
+		...mapState( usePokemonStore, ['pokemonList'] ),
+
 		pokemon_description(){
 			if ( this.loaded_species.hasOwnProperty('flavor_text_entries') ) {
 				return this.loaded_species.flavor_text_entries.filter( item => item.language.name == this.selected_language )[0].flavor_text;
@@ -123,13 +173,28 @@ export default {
 
 	methods: {
 		go_back(){
-			this.$router.back();
+			this.$router.push({ path: '/' })
+		},
+
+		go_to_previous(){
+			const prev = this.pokemonList.find( pokemon => pokemon.id == ( Number(this.pokemon.id) - 1 ));
+			if ( prev ){
+    			this.$router.push({ path: `/pokemon/${prev.name}` })
+			}
+		},
+
+		go_to_next(){
+			const next = this.pokemonList.find( pokemon => pokemon.id == ( Number(this.pokemon.id) + 1 ));
+			if ( next ){
+    			this.$router.push({ path: `/pokemon/${next.name}` })
+			}
 		},
 
 		async loadPokemon(){
 			this.pokemon = await this.getPokemon( this.name );
 			this.loaded_species = await this.getPokemonSpecies( this.name );
-		}
+		},
+
 	}
 
 }
@@ -188,10 +253,12 @@ export default {
 }
 
 .preview-image-container{
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin-top: -144px;
 	img.preview-image-img{
 		z-index: 100;
-		margin-top: -144px;
 		position: relative;
 	}
 }
@@ -252,5 +319,30 @@ export default {
 .pokemon-description{
 	font-size: 10px;
 	line-height: 16px;
+}
+
+.stat-name{
+	width: 40px;
+	padding-right: 8px;
+	font-weight: 700;
+	font-size: 10px;
+	line-height: 16px;
+	color: v-bind( type_color );
+	text-align: right;
+	border-right: 1px solid var(--Light-Gray);
+}
+
+.stat-value{
+	padding-left: 8px;
+	padding-right: 8px;
+	font-weight: 400;
+	font-size: 10px;
+	line-height: 16px;
+}
+
+.direction-caret{
+	color: #ffffff;
+	cursor: pointer;
+	z-index: 100;
 }
 </style>

@@ -50,7 +50,7 @@ export default {
 			if ( this.searchTerms.length > 0 ) {
 				return '';
 			}
-			return 'buscar ...';
+			return this.$i18n.t('search') + ' ...';
 		},
 
 		searchHasText(){
