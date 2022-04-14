@@ -8,22 +8,21 @@ export const usePokemonStore = defineStore('pokemon', {
         pokemonList: [],
 
         //pokemons cargados en los resultados de busqueda
-        loadedPokemons: [],
+        loadedPokemons: {},
 
     }),
 
     actions: {
         setPokemonList(list){
             this.pokemonList = list;
+            this.pokemonList.map( pokemon => {
+                pokemon.id = pokemon.url.split('/').at(-2);
+                return pokemon;
+            })
         },
 
         storePokemon(pokemon){
-            const index = this.loadedPokemons.findIndex( listed => listed.id == pokemon.id );
-            if ( index == -1 ) {
-                this.loadedPokemons.push( pokemon );
-            } else {
-                this.loadedPokemons[ index ] = pokemon;
-            }
+            this.loadedPokemons[ pokemon.name ] = pokemon;
         },
     },
 })

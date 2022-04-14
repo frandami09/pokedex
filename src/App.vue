@@ -8,23 +8,14 @@
 
 <script>
 
-import apiMixin from '@/mixins/apiMixin'
-import { usePokemonStore } from '@/stores/PokemonStore'
-import { mapActions } from 'pinia'
+import pokemonServiceMixin from '@/mixins/pokemonServiceMixin'
 
 export default {
 
-    mixins: [ apiMixin ],
+    mixins: [ pokemonServiceMixin ],
 
     mounted(){
-
-        /**
-         * Inicializo y dejo guardada la lista completa de pokemons para usarla de referencia en las busquedas
-         */
-        this.getPaginated( 'pokemon', 2000, 0 ).then( data => {
-            this.setPokemonList( data.results );
-        });
-
+        this.getPokemonList();
     },
 
     data(){
@@ -61,10 +52,6 @@ export default {
             colors: this.colors,
         }
     },
-
-    methods:{
-        ...mapActions( usePokemonStore, ['setPokemonList'] )
-    }
 }
 
 </script>

@@ -12,20 +12,29 @@ export default {
 
 	methods: {
 
-		...mapActions( usePokemonStore, ['storePokemon'] ),
+		...mapActions( usePokemonStore, ['storePokemon', 'setPokemonList'] ),
 
 		//Busco el pokemon en cuestion.
 		//Si no existe en el store se lo pido a la api y lo almaceno en el store
 		async getPokemon( name ){
-			let pokemon = this.loadedPokemons.find( pokemon => pokemon.name == name );
-			if (pokemon) {
-				return pokemon;
-			} else {
+			let pokemon;
+			if ( this.loadedPokemons[ name ] == undefined ) {
 				pokemon = await this.get( 'pokemon', name );
 				this.storePokemon( pokemon );
-				return pokemon;
+			} else {
+				pokemon = this.loadedPokemons[name];
 			}
+			return pokemon;
 		},
+
+		/**
+         * Inicializo y dejo guardada la lista completa de pokemons para usarla de referencia en las busquedas
+         */
+        getPokemonList(){
+	        this.getPaginated( 'pokemon', 2000, 0 ).then( data => {
+	            this.setPokemonList( data.results );
+	        });
+        }
 
 	}
 

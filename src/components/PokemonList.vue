@@ -18,12 +18,9 @@
 </template>
 <script>
 
-import apiMixin from '@/mixins/apiMixin'
 import PokePreview from '@/components/PokePreview.vue'
 
 export default {
-
-    mixins: [ apiMixin ],
 
     components: {
     	PokePreview,
@@ -41,7 +38,7 @@ export default {
     	return {
     		searchTerms: '',
     		currentPage: 1,
-    		elementsPerPage: 5,
+    		elementsPerPage: 10,
     		orderBy: 'id',
     		orderDirection: 'asc',
     	}
