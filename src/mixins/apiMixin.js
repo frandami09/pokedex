@@ -13,6 +13,8 @@ export default {
 			if ( response.ok ) {
 				const result = await response.json();
   				return result;
+			} else {
+				this.$router.push({ path: '/NotFound' })
 			}
 		},
 

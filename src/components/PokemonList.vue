@@ -22,7 +22,7 @@
 
             <div class="col-auto">
                 <div class="form-group pt-1">
-                    <select v-model="elementsPerPage" style="background: transparent;border: transparent;">
+                    <select v-model.number="elementsPerPage" style="background: transparent;border: transparent;">
                         <option>5</option>
                         <option>10</option>
                         <option>25</option>
@@ -47,7 +47,9 @@
         >
         </PokeSearch>
 
-    	<div class="row no-gutters justify-content-between mx-0 my-2">
+    	<div
+            class="search-results mx-0 my-2"
+        >
     		<PokePreview
     			v-for="pokemon in currentyDisplaying"
     			:key="pokemon.name"
@@ -154,6 +156,13 @@ export default {
     font-weight: 700;
     font-size: 24px;
     line-height: 32px;
+}
+
+.search-results{
+    display: grid; /* 1 */
+    grid-template-columns: repeat(auto-fill, 100px); /* 2 */
+    grid-gap: 1rem; /* 3 */
+    justify-content: space-between; /* 4 */
 }
 
 </style>

@@ -62,6 +62,8 @@ export default {
     border-radius: 8px;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
     overflow: hidden;
     padding: 0;
     cursor: pointer;
