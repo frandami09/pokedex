@@ -36,6 +36,15 @@
     		</PokePreview>
         </div>
 
+        <PokePagination
+            :selected_page="currentPage"
+            :elements_per_page="elementsPerPage"
+            :content_length="currentyDisplayingRaw.length"
+            @selected_page="currentPage = $event.page"
+        >
+        </PokePagination>
+
+
     </div>
 
 </template>
@@ -43,6 +52,7 @@
 
 import PokePreview from '@/components/PokePreview.vue'
 import PokeSearch from '@/components/PokeSearch.vue'
+import PokePagination from '@/components/PokePagination.vue'
 import PokeSort from '@/components/PokeSort.vue'
 import IconPokeball from '@/components/icons/IconPokeball.vue'
 
@@ -52,7 +62,8 @@ export default {
         IconPokeball,
     	PokePreview,
         PokeSearch,
-        PokeSort
+        PokeSort,
+        PokePagination
     },
 
     props: {
@@ -75,9 +86,8 @@ export default {
 
     computed: {
 
-    	currentyDisplaying(){
-
-    		let result = this.pokemon_list.filter( pokemon => pokemon.name.includes( this.searchTerms ) );
+        currentyDisplayingRaw(){
+            let result = this.pokemon_list.filter( pokemon => pokemon.name.includes( this.searchTerms ) );
 
             result = result.sort((current, next) => {
                 if ( this.orderDirection === 'asc' ) {
@@ -87,12 +97,16 @@ export default {
                 }
             });
 
+            return result;
+        },
+
+    	currentyDisplaying(){
+
     		const from = (this.currentPage * this.elementsPerPage) - this.elementsPerPage;
             const to = (this.currentPage * this.elementsPerPage);
 
-            result = result.slice(from, to);
+            return this.currentyDisplayingRaw.slice(from, to);
 
-            return result;
     	}
 
     },

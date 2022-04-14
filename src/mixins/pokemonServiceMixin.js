@@ -89,7 +89,7 @@ export default {
          */
         getPokemonList(){
 	        this.getPaginated( 'pokemon', 2000, 0 ).then( data => {
-	            this.setPokemonList( data.results );
+	            this.setPokemonList( data );
 	        });
         }
 

@@ -8,6 +8,9 @@ export const usePokemonStore = defineStore('pokemon', {
         //utilizada a manera de cache para agilizar las busquedas
         pokemonList: [],
 
+        //cantidad total de pokemons
+        pokemonListCount: 0,
+
         //pokemons cargados en el store
         loadedPokemons: {},
 
@@ -18,7 +21,8 @@ export const usePokemonStore = defineStore('pokemon', {
 
     actions: {
         setPokemonList(list){
-            this.pokemonList = list;
+            this.pokemonList = list.results;
+            this.pokemonListCount = list.count;
             //le agrego una nueva propiedad id para poder ordenar la lista basada en los ids
             this.pokemonList.map( pokemon => {
                 pokemon.id = Number( pokemon.url.split('/').at(-2) );
