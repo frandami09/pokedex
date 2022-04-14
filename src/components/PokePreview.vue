@@ -5,23 +5,18 @@
 </template>
 <script>
 
-import { usePokemonStore } from '@/stores/PokemonStore'
-import { mapState, mapActions } from 'pinia'
-import apiMixin from '@/mixins/apiMixin'
+import pokemonServiceMixin from '@/mixins/pokemonServiceMixin'
 
 export default {
 
-    mixins: [ apiMixin ],
+    mixins: [ pokemonServiceMixin ],
 
     props: {
     	name: String,
     },
 
-    created(){
-    	this.get( 'pokemon', this.name ).then( data => {
-    		this.pokemon = data;
-    		this.loadPokemon( this.pokemon );
-    	});
+    async mounted(){
+    	this.pokemon = await this.getPokemon( this.name );
     },
 
     data(){
@@ -31,8 +26,6 @@ export default {
     },
 
     methods: {
-    	...mapActions( usePokemonStore, ['loadPokemon']),
-
     	show_pokemon( event ){
     		this.$router.push({ path: `/pokemon/${this.pokemon.name}` })
     	}

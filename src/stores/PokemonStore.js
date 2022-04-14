@@ -17,7 +17,7 @@ export const usePokemonStore = defineStore('pokemon', {
             this.pokemonList = list;
         },
 
-        loadPokemon(pokemon){
+        storePokemon(pokemon){
             const index = this.loadedPokemons.findIndex( listed => listed.id == pokemon.id );
             if ( index == -1 ) {
                 this.loadedPokemons.push( pokemon );
